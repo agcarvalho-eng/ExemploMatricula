@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 import com.example.exemplomatricula.R;
+import com.example.exemplomatricula.controllers.MyDialog;
+
 import android.view.View.OnClickListener;
 import android.content.DialogInterface;
 
@@ -40,6 +42,7 @@ public class TelaInicialFragment extends Fragment {
                 // Navegar para o fragmento de login
                 getFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new LoginFragment())
+                        // Possibilita voltar ao fragmento anterior
                         .addToBackStack(null)
                         .commit();
             }
@@ -50,24 +53,17 @@ public class TelaInicialFragment extends Fragment {
         botaoExplicacao.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mostrarDialog();
+               mostrarDialog();
             }
         });
 
         return rootView;
     }
 
+    // Carregando o AlertDialog
     private void mostrarDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Como funciona o App");
-        builder.setMessage(getString(R.string.dialog_explicacao));
-        builder.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
+        MyDialog mdf = new MyDialog();
+        mdf.show(requireActivity().getSupportFragmentManager(), "dialogo");
     }
 }
 
