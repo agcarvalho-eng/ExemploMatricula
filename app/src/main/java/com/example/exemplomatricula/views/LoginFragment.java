@@ -3,6 +3,8 @@ package com.example.exemplomatricula.views;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflando o layput do fragmento
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
         // Referências aos componentes do layout
@@ -64,25 +67,35 @@ public class LoginFragment extends Fragment {
         String email = editTextEmail.getText().toString().trim();
         String senha = editTextSenha.getText().toString().trim();
 
+        // Verificando se email e senha estão vazios
         if (email.isEmpty() || senha.isEmpty()) {
-            Toast.makeText(getActivity(), "Precisa preencher todos os campos!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Precisa preencher todos os campos!",
+                    Toast.LENGTH_SHORT).show();
         } else {
+            // Criando o objeto Estudante
             Estudante estudante = new Estudante(email, senha);
 
             // Validando login na thread
             manipularEstudante.validarLogin(estudante, new Handler(Looper.getMainLooper()) {
                 @Override
-                public void handleMessage(android.os.Message msg) {
-                    Estudante estudanteResult = (Estudante) msg.obj;
-                    if (estudanteResult != null) {
-                        SessaoUsuario.setIdEstudante(estudanteResult.getId());
+                public void handleMessage(Message msg) {
+                    // Obtendo o resultado retornado pela validação
+                    Estudante estudanteResultado = (Estudante) msg.obj;
 
-                        Toast.makeText(getActivity(), "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
+                    // Verificando se foi encontrado o estudante
+                    if (estudanteResultado != null) {
+                        SessaoUsuario.setIdEstudante(estudanteResultado.getId());
+                        SessaoUsuario.setNomeEstudante(estudanteResultado.getNome());
+                        SessaoUsuario.setEmailEstudante(estudanteResultado.getEmail());
+
+                        Toast.makeText(getActivity(), "Login bem-sucedido!",
+                                Toast.LENGTH_SHORT).show();
                         getActivity().getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.frameLayout, new HomeFragment())
                                 .commit();
                     } else {
-                        Toast.makeText(getActivity(), "Usuário não cadastrado!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Usuário não cadastrado!",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             });

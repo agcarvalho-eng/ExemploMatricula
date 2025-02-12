@@ -16,7 +16,7 @@ public interface AproveitamentoEscolarDao {
     void inserirAproveitamentoEscolar(AproveitamentoEscolar aproveitamentoEscolar);
 
     @Query("SELECT valor FROM aproveitamentoEscolar WHERE id_estudante = :idEstudante")
-    float obterAproveitamentoEscolar(int idEstudante);
+    double obterAproveitamentoEscolar(int idEstudante);
 
     @Update
     void atualizarAproveitamentoEscolar(AproveitamentoEscolar aproveitamentoEscolar);

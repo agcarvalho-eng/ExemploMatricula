@@ -19,7 +19,6 @@ public class CadastroFragment extends Fragment {
     private MaterialButton botaoCadastrar;
 
     public CadastroFragment() {
-        // Required empty public constructor
     }
 
     @Override

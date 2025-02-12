@@ -1,4 +1,4 @@
-package com.example.exemplomatricula.controllers;
+package com.example.exemplomatricula.views;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -21,7 +21,7 @@ public class MyDialog extends DialogFragment {
         builder.setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+               dialog.dismiss();
             }
         });
         AlertDialog dialog = builder.create();

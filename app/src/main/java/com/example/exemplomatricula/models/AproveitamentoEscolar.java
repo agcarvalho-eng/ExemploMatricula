@@ -1,5 +1,6 @@
 package com.example.exemplomatricula.models;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,7 +9,11 @@ public class AproveitamentoEscolar {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private float valor;
+
+    @ColumnInfo(name = "valor")
+    private double valor;
+
+    @ColumnInfo(name = "id_estudante")
     private int id_estudante;
 
     public AproveitamentoEscolar(float valor, int id_estudante) {
@@ -24,7 +29,7 @@ public class AproveitamentoEscolar {
         this.id = id;
     }
 
-    public float getValor() {
+    public double getValor() {
         return valor;
     }
 

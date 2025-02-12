@@ -1,6 +1,7 @@
 package com.example.exemplomatricula.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,11 +50,10 @@ public class HomeFragment extends Fragment {
         // Referenciando o textView para exibir nome e aproveitamento escolar
         textUsuario = rootView.findViewById(R.id.textViewUsuario);
 
-        // Buscando as informações do Id do estudante
+        // Buscando as informações do estudante logado
         int idEstudante = SessaoUsuario.getIdEstudante();
-
-        String nomeEstudante = db_Estudante.obterNomeEstudante(idEstudante);
-        float indiceAproveitamento = db_AE.obterAproveitamentoEscolar(idEstudante);
+        String nomeEstudante = SessaoUsuario.getNomeEstudante();
+        double indiceAproveitamento = db_AE.obterAproveitamentoEscolar(idEstudante);
 
         // Exibindo as informações no TextView
         String mensagem = "Olá " + nomeEstudante + ", seu índice de aproveitamento escolar é: "

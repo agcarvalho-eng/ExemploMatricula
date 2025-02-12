@@ -1,5 +1,6 @@
 package com.example.exemplomatricula.models;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -9,8 +10,14 @@ public class Estudante {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+
+    @ColumnInfo(name = "nome")
     private String nome;
+
+    @ColumnInfo(name = "email")
     private String email;
+
+    @ColumnInfo(name = "senha")
     private String senha;
 
     public Estudante(String nome, String email, String senha) {

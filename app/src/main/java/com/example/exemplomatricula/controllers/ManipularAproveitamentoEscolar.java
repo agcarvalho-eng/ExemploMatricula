@@ -5,15 +5,16 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.example.exemplomatricula.models.AproveitamentoEscolar;
-import com.example.exemplomatricula.models.MyDatabaseAproveitamentoEscolar;
-import com.example.exemplomatricula.models.MyDatabaseEstudante;
+import com.example.exemplomatricula.models.MyDatabase;
+
 
 public class ManipularAproveitamentoEscolar {
 
-    private MyDatabaseAproveitamentoEscolar db_AE;
+    private MyDatabase db_AE;
+    //private MyDatabaseAproveitamentoEscolar db_AE;
 
     public ManipularAproveitamentoEscolar(Context context) {
-        db_AE = Room.databaseBuilder(context, MyDatabaseAproveitamentoEscolar.class, "aproveitamento-database")
+        db_AE = Room.databaseBuilder(context, MyDatabase.class, "matricula")
                 .fallbackToDestructiveMigration()
                 .build();
     }
@@ -28,8 +29,8 @@ public class ManipularAproveitamentoEscolar {
         }).start();
     }
 
-    public float obterAproveitamentoEscolar(int id_estudante) {
-        final float[] valorAproveitamentoEscolar = {0};
+    public double obterAproveitamentoEscolar(int id_estudante) {
+        final double[] valorAproveitamentoEscolar = {0};
         new Thread(new Runnable() {
             @Override
             public void run() {

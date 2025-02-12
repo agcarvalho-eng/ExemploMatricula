@@ -10,13 +10,13 @@ import com.example.exemplomatricula.models.Estudante;
 import java.util.List;
 
 @Dao
-public interface EstudanteDao {
+public interface EstudantesDao {
 
     @Insert
     void inserirEstudante(Estudante estudante);
 
     @Query("SELECT * FROM estudantes")
-    List<Estudante> obterTodosEstudantes();
+    List<Estudante> listarTodosEstudantes();
 
     @Update
     void atualizarEstudante(Estudante estudante);
@@ -25,7 +25,7 @@ public interface EstudanteDao {
     void deletarEstudante(Estudante estudante);
 
     @Query("SELECT nome FROM estudantes WHERE id = :idEstudante")
-    String obterNomeEstudante(int idEstudante);
+    String obterNomeEstudanteId(int idEstudante);
 
     @Query("SELECT * FROM estudantes WHERE email = :email AND senha = :senha")
     Estudante validarLogin(String email, String senha);
