@@ -1,4 +1,4 @@
-package com.example.exemplomatricula.controllers;
+package com.example.exemplomatricula.models.DAO;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -9,15 +9,21 @@ import com.example.exemplomatricula.models.Disciplina;
 import java.util.List;
 
 @Dao
-public interface DisciplinasDao {
+public interface DisciplinaDao {
 
     @Insert
-    void insert(Disciplina disciplina);
+    void inserirDisciplina(Disciplina disciplina);
+
+    @Insert
+    void inserirListaDisciplinas(Disciplina disciplina);
 
     @Query("SELECT * FROM disciplinas")
     List<Disciplina> listarTodasDisciplinas();
 
     @Query("SELECT * FROM disciplinas WHERE id = :id")
     Disciplina obterDisciplinaId(int id);
+
+    @Query("SELECT * FROM disciplinas WHERE nome = :nome")
+    Disciplina obterDisciplinaPorNome(String nome);
 }
 

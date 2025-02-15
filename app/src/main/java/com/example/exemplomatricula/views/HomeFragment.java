@@ -10,12 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.exemplomatricula.R;
 import com.example.exemplomatricula.controllers.ManipularAproveitamentoEscolar;
+import com.example.exemplomatricula.controllers.ManipularDisciplinas;
 import com.example.exemplomatricula.controllers.ManipularEstudante;
 import com.example.exemplomatricula.models.SessaoUsuario;
 
@@ -24,31 +27,41 @@ public class HomeFragment extends Fragment {
     private TextView textUsuario;
     private ManipularAproveitamentoEscolar db_AE;
     private ManipularEstudante db_Estudante;
+    private ManipularDisciplinas db_Disciplinas;
 
     public HomeFragment() {
 
     }
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        // Inflando o layout do fragmento
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        // Inicializando a instância de ManipularDisciplinas
+        db_Disciplinas = new ManipularDisciplinas(getContext());
+
+        // Inserindo a lista de disciplinas no BD
+        db_Disciplinas.inserirListaDisciplinas(getContext());
+
         // Habilitando o menu para este fragmento
         setHasOptionsMenu(true);
         db_Estudante = new ManipularEstudante(getContext());
         db_AE = new ManipularAproveitamentoEscolar(getContext());
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflando o layout do fragmento Home
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Configurando a toolbar para que exista apenas neste fragmento
-        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((MainActivity) getActivity()).setSupportActionBar(toolbar);
 
         // Referenciando o textView para exibir nome e aproveitamento escolar
-        textUsuario = rootView.findViewById(R.id.textViewUsuario);
+        textUsuario = view.findViewById(R.id.textViewUsuario);
 
         // Buscando as informações do estudante logado
         int idEstudante = SessaoUsuario.getIdEstudante();
@@ -60,9 +73,9 @@ public class HomeFragment extends Fragment {
                 + indiceAproveitamento;
         textUsuario.setText(mensagem);
 
-        return rootView;
     }
 
+    // Método do ciclo de vida do fragmento (quando iniciar o fragmento)
     @Override
     public void onStart() {
         super.onStart();
@@ -70,6 +83,7 @@ public class HomeFragment extends Fragment {
         ((MainActivity) getActivity()).toolbarVisibilidade(true);
     }
 
+    // Método do ciclod e vida do fragmento (quando finalizar o fragmento)
     @Override
     public void onStop() {
         super.onStop();
@@ -88,7 +102,7 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Verificando qual item foi selecionado
         if (item.getItemId() == R.id.listar_disciplinas) {
-            Toast.makeText(getActivity(), "Listando Disciplinas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "ListarDisciplinasFragme", Toast.LENGTH_SHORT).show();
             // Direcionando para o fragmento de Listar Disciplinas
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frameLayout, new ListarDisciplinasFragment())
@@ -96,7 +110,7 @@ public class HomeFragment extends Fragment {
                     .commit();
             return true;
         } else if (item.getItemId() == R.id.inserir_disciplina) {
-            Toast.makeText(getActivity(), "Inserindo Disciplina", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Inserindo Nova Disciplina!", Toast.LENGTH_SHORT).show();
             // Direcionando para o fragmento Inserir Disciplina
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frameLayout, new InserirDisciplinaFragment())
@@ -104,7 +118,7 @@ public class HomeFragment extends Fragment {
                     .commit();
             return true;
         } else if (item.getItemId() == R.id.logout) {
-            Toast.makeText(getActivity(), "Desconectando", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Desconectando!", Toast.LENGTH_SHORT).show();
             // Direcionando para o fragmento de Tela Login
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frameLayout, new LoginFragment())

@@ -1,6 +1,5 @@
-package com.example.exemplomatricula.controllers;
+package com.example.exemplomatricula.models.DAO;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;

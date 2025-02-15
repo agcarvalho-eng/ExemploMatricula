@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.room.Room;
 import com.example.exemplomatricula.models.Estudante;
 import com.example.exemplomatricula.models.MyDatabase;
+import com.example.exemplomatricula.models.SessaoUsuario;
 
 public class ManipularEstudante {
 
@@ -44,7 +45,6 @@ public class ManipularEstudante {
             @Override
             public void run() {
                 nomeEstudante[0] = db_estudante.estudanteDao().obterNomeEstudanteId(idEstudante);
-                Log.d("Estudante", "Nome do Estudante na sessão: " + nomeEstudante[0]);
 
             }
         }).start();
@@ -63,17 +63,21 @@ public class ManipularEstudante {
                 // Chamando o DAO para fazer a consulta
                 Estudante estudanteResultado = db_estudante.estudanteDao().validarLogin(emailEstudante, senhaEstudante);
 
-                // Criando uma mensagem para enviar para o Handler
-                Message message = handler.obtainMessage();
+                // Criando um objeto mensagem para enviar para o Handler (permite comunicação entre as Threads)
+                Message mensagem = handler.obtainMessage();
                 if(estudanteResultado != null) {
-                    // Atribuindo o resultado ao objeto
-                    message.obj = estudanteResultado;
+                    // Guardando as informações do estudante na sessão
+                    SessaoUsuario.setIdEstudante(estudanteResultado.getId());
+                    SessaoUsuario.setNomeEstudante(estudanteResultado.getNome());
+                    SessaoUsuario.setEmailEstudante(estudanteResultado.getEmail());
+                    // Atribuindo o resultado ao objeto message
+                    mensagem.obj = estudanteResultado;
                 } else {
-                    message.obj = null;
+                    mensagem.obj = null;
                 }
 
                 // Enviando o resultado para o Handler
-                handler.sendMessage(message);
+                handler.sendMessage(mensagem);
             }
         }).start();
     }

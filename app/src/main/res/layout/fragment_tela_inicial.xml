@@ -23,17 +23,17 @@
         android:textSize="18sp"
         android:layout_marginBottom="32dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/botaoLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ir para Login"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/botaoExplicacao"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Explicação do funcionamento"
         android:layout_gravity="center"/>

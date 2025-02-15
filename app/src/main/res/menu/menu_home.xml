@@ -5,19 +5,19 @@
     <item
         android:id="@+id/listar_disciplinas"
         android:title="Configurações"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:icon="@drawable/listar"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/inserir_disciplina"
         android:title="Sair"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:icon="@drawable/adicionar_disciplinas"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/logout"
         android:title="Sair"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:icon="@drawable/logout"
         app:showAsAction="ifRoom" />
 
 </menu>

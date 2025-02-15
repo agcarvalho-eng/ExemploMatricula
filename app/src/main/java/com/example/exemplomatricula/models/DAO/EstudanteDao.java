@@ -1,4 +1,4 @@
-package com.example.exemplomatricula.controllers;
+package com.example.exemplomatricula.models.DAO;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -10,7 +10,7 @@ import com.example.exemplomatricula.models.Estudante;
 import java.util.List;
 
 @Dao
-public interface EstudantesDao {
+public interface EstudanteDao {
 
     @Insert
     void inserirEstudante(Estudante estudante);

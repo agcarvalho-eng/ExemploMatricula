@@ -24,8 +24,7 @@ public class MyDialog extends DialogFragment {
                dialog.dismiss();
             }
         });
-        AlertDialog dialog = builder.create();
-        return dialog;
+        return builder.create();
     }
 
 }

@@ -39,6 +39,7 @@ public class LoginFragment extends Fragment {
         botaoLogin = rootView.findViewById(R.id.botaoLogin);
         botaoCadastrar = rootView.findViewById(R.id.botaoCadastrar);
 
+        // Estanciando um objeto da classe ManipularEstudante
         manipularEstudante = new ManipularEstudante(getContext());
 
         // Configurando o botão login
@@ -72,22 +73,18 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getActivity(), "Precisa preencher todos os campos!",
                     Toast.LENGTH_SHORT).show();
         } else {
-            // Criando o objeto Estudante
+            // Criando nova instância da classe Estudante
             Estudante estudante = new Estudante(email, senha);
 
             // Validando login na thread
             manipularEstudante.validarLogin(estudante, new Handler(Looper.getMainLooper()) {
                 @Override
-                public void handleMessage(Message msg) {
+                public void handleMessage(Message mensagem) {
                     // Obtendo o resultado retornado pela validação
-                    Estudante estudanteResultado = (Estudante) msg.obj;
+                    Estudante estudanteResultado = (Estudante) mensagem.obj;
 
                     // Verificando se foi encontrado o estudante
                     if (estudanteResultado != null) {
-                        SessaoUsuario.setIdEstudante(estudanteResultado.getId());
-                        SessaoUsuario.setNomeEstudante(estudanteResultado.getNome());
-                        SessaoUsuario.setEmailEstudante(estudanteResultado.getEmail());
-
                         Toast.makeText(getActivity(), "Login bem-sucedido!",
                                 Toast.LENGTH_SHORT).show();
                         getActivity().getSupportFragmentManager().beginTransaction()
