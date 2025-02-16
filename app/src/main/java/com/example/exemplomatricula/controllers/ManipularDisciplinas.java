@@ -1,6 +1,7 @@
 package com.example.exemplomatricula.controllers;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.room.Room;
 
@@ -74,12 +75,23 @@ public class ManipularDisciplinas {
 
     public List<Disciplina> listarTodasDisciplinas() {
         final List<Disciplina>[] disciplinas = new List[]{new ArrayList<>()};
-        new Thread(new Runnable() {
+        Log.d("ManipularDisciplinas", "Iniciando leitura das disciplinas...");
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 disciplinas[0] = disciplinaDao.listarTodasDisciplinas();
+                Log.d("ManipularDisciplinas", "Disciplinas obtidas: " + disciplinas[0].size());
             }
-        }).start();
+        });
+        thread.start();
+
+        // Esperando a thread termine suas operações
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.d("ManipularDisciplinas", "Tamanho da lista de disciplinas retornada: " + disciplinas[0].size());
         return disciplinas[0];
     }
 

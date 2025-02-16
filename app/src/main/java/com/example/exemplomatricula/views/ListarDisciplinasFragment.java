@@ -1,9 +1,11 @@
 package com.example.exemplomatricula.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +23,7 @@ import java.util.List;
 public class ListarDisciplinasFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private DisciplinaAdapter disciplinaAdapter;
+    private MeuAdapter meuAdapter;
     private ManipularDisciplinas db_Disciplinas;
     private List<Disciplina> listaDisciplinas;
 
@@ -33,7 +35,7 @@ public class ListarDisciplinasFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflando o layout do fragmento
-        return inflater.inflate(R.layout.fragment_inserir_disciplina, container, false);
+        return inflater.inflate(R.layout.fragment_listar_disciplinas, container, false);
     }
 
     @Override
@@ -41,8 +43,14 @@ public class ListarDisciplinasFragment extends Fragment {
 
         // Inicializando o recyclerView
         recyclerView = view.findViewById(R.id.recyclerViewDisciplinas);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // Verificando se o recyclerView não está vazio
+        if(recyclerView != null) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        } else {
+            Toast.makeText(getContext(), "RecyclerView não encontrado!",
+                    Toast.LENGTH_SHORT).show();
+        }
 
         // Iniciando a manipulação das disciplinas
         db_Disciplinas = new ManipularDisciplinas(getContext());
@@ -55,13 +63,18 @@ public class ListarDisciplinasFragment extends Fragment {
                 // Obtendo a lista de disciplinas do BD
                 listaDisciplinas = db_Disciplinas.listarTodasDisciplinas();
 
+                // Log para verificar se as disciplinas foram carregadas no BD
+                Log.d("ListarDisciplinasFragment", "Lista de disciplinas carregada. Tamanho: " + listaDisciplinas.size());
+
                 // Atualizando a UI no thread principal após a busca no BD
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Criando e configurando o Adapter
-                        disciplinaAdapter = new DisciplinaAdapter(listaDisciplinas);
-                        recyclerView.setAdapter(disciplinaAdapter);
+                        // Log de confirmação de configuração do Adapter
+                        Log.d("ListarDisciplinasFragment", "Criando o Adapter com " + listaDisciplinas.size() + " disciplinas.");
+                        meuAdapter = new MeuAdapter(listaDisciplinas);
+                        recyclerView.setAdapter(meuAdapter);
                     }
                 });
             }
