@@ -17,6 +17,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDisciplinas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/botaoVoltarHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Voltar para Home"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp" />
 </LinearLayout>
 

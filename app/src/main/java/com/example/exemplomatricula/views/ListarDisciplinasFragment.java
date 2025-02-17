@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ public class ListarDisciplinasFragment extends Fragment {
     private MeuAdapter meuAdapter;
     private ManipularDisciplinas db_Disciplinas;
     private List<Disciplina> listaDisciplinas;
+    private Button botaoVoltarHome;
 
     public ListarDisciplinasFragment() {
     }
@@ -41,8 +43,9 @@ public class ListarDisciplinasFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        // Inicializando o recyclerView
+        // Inicializando o recyclerView e o button
         recyclerView = view.findViewById(R.id.recyclerViewDisciplinas);
+        botaoVoltarHome = view.findViewById(R.id.botaoVoltarHome);
 
         // Verificando se o recyclerView não está vazio
         if(recyclerView != null) {
@@ -79,6 +82,18 @@ public class ListarDisciplinasFragment extends Fragment {
                 });
             }
         }).start();
+
+        // Configurando o botão voltar para a Home
+        botaoVoltarHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Retornando para o HomeFragment
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, new HomeFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
     }
 }

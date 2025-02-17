@@ -10,8 +10,14 @@
 
     <item
         android:id="@+id/inserir_disciplina"
-        android:title="Sair"
+        android:title="Inserir Disciplina"
         android:icon="@drawable/adicionar_disciplinas"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/inserir_peso"
+        android:title="Inserir Peso"
+        android:icon="@drawable/peso"
         app:showAsAction="ifRoom" />
 
     <item

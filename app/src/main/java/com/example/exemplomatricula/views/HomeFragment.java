@@ -25,9 +25,8 @@ import com.example.exemplomatricula.models.SessaoUsuario;
 public class HomeFragment extends Fragment {
 
     private TextView textUsuario;
-    private ManipularAproveitamentoEscolar db_AE;
-    private ManipularEstudante db_Estudante;
-    private ManipularDisciplinas db_Disciplinas;
+    //private ManipularAproveitamentoEscolar db_AE;
+    //private ManipularEstudante db_Estudante;
 
     public HomeFragment() {
 
@@ -45,16 +44,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        // Inicializando a instância de ManipularDisciplinas
-        db_Disciplinas = new ManipularDisciplinas(getContext());
-
-        // Inserindo a lista de disciplinas no BD
-        db_Disciplinas.inserirListaDisciplinas(getContext());
-
         // Habilitando o menu para este fragmento
         setHasOptionsMenu(true);
-        db_Estudante = new ManipularEstudante(getContext());
-        db_AE = new ManipularAproveitamentoEscolar(getContext());
+        //db_Estudante = new ManipularEstudante(getContext());
+        //db_AE = new ManipularAproveitamentoEscolar(getContext());
 
         // Configurando a toolbar para que exista apenas neste fragmento
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -66,9 +59,11 @@ public class HomeFragment extends Fragment {
         // Buscando as informações do estudante logado
         int idEstudante = SessaoUsuario.getIdEstudante();
         String nomeEstudante = SessaoUsuario.getNomeEstudante();
-        double indiceAproveitamento = db_AE.obterAproveitamentoEscolar(idEstudante);
+        //double indiceAproveitamento = db_AE.obterAproveitamentoEscolar(idEstudante);
 
         // Exibindo as informações no TextView
+        // COLOCANDO UM ÍNDICE DE APROVEITAMENTO GENÉRICO
+        double indiceAproveitamento = 0.0;
         String mensagem = "Olá " + nomeEstudante + ", seu índice de aproveitamento escolar é: "
                 + indiceAproveitamento;
         textUsuario.setText(mensagem);
@@ -98,11 +93,12 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.menu_home, menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Verificando qual item foi selecionado
         if (item.getItemId() == R.id.listar_disciplinas) {
-            Toast.makeText(getActivity(), "ListarDisciplinasFragme", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Listar Disciplinas", Toast.LENGTH_SHORT).show();
             // Direcionando para o fragmento de Listar Disciplinas
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frameLayout, new ListarDisciplinasFragment())
@@ -124,9 +120,17 @@ public class HomeFragment extends Fragment {
                     .replace(R.id.frameLayout, new LoginFragment())
                     .commit();
             return true;
+        } else if (item.getItemId() == R.id.inserir_peso) {
+            // Ação ao clicar no novo item "Peso"
+            Toast.makeText(getActivity(), "Você clicou em Inserir Peso!", Toast.LENGTH_SHORT).show();
+            // Direcionando para o fragmento de Tela Login
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frameLayout, new InserirPesoDisciplinaFragment())
+                    .commit();
+            return true;
         }
-        return super.onOptionsItemSelected(item);
 
+        return super.onOptionsItemSelected(item);
     }
 }
 

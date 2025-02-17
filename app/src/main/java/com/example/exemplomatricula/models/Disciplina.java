@@ -2,7 +2,11 @@ package com.example.exemplomatricula.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Junction;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
+
+import java.util.List;
 
 @Entity(tableName = "disciplinas")
 public class Disciplina {
@@ -15,6 +19,9 @@ public class Disciplina {
 
     @ColumnInfo(name = "peso")
     private double peso;
+
+    // Room exige um construtor padrão
+    public Disciplina() {}
 
     public Disciplina(String nome, double peso) {
         this.nome = nome;

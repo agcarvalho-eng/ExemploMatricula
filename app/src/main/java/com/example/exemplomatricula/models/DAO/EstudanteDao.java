@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import com.example.exemplomatricula.models.Estudante;
+import com.example.exemplomatricula.models.EstudanteComDisciplinas;
 
 import java.util.List;
 
@@ -30,4 +31,7 @@ public interface EstudanteDao {
     @Query("SELECT * FROM estudantes WHERE email = :email AND senha = :senha")
     Estudante validarLogin(String email, String senha);
 
+    // Obter um estudante com suas disciplinas
+    @Query("SELECT * FROM estudantes WHERE id = :idEstudante")
+    EstudanteComDisciplinas obterEstudanteComDisciplinas (int idEstudante);
 }

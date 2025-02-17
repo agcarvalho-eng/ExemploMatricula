@@ -20,8 +20,8 @@ public interface DisciplinaDao {
     @Query("SELECT * FROM disciplinas")
     List<Disciplina> listarTodasDisciplinas();
 
-    @Query("SELECT * FROM disciplinas WHERE id = :id")
-    Disciplina obterDisciplinaId(int id);
+    @Query("SELECT * FROM disciplinas WHERE id = :idDisciplina")
+    Disciplina obterDisciplinaId(int idDisciplina);
 
     @Query("SELECT * FROM disciplinas WHERE nome = :nome")
     Disciplina obterDisciplinaPorNome(String nome);

@@ -24,7 +24,7 @@ public class ManipularAproveitamentoEscolar {
             @Override
             public void run() {
                 AproveitamentoEscolar aproveitamentoEscolar = new AproveitamentoEscolar(valor, id_estudante);
-                db_AE.aproveitamentoEscolarDao().inserirAproveitamentoEscolar(aproveitamentoEscolar);
+                //db_AE.aproveitamentoEscolarDao().inserirAproveitamentoEscolar(aproveitamentoEscolar);
             }
         }).start();
     }
@@ -34,7 +34,7 @@ public class ManipularAproveitamentoEscolar {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                valorAproveitamentoEscolar[0] = db_AE.aproveitamentoEscolarDao().obterAproveitamentoEscolar(id_estudante);
+                //valorAproveitamentoEscolar[0] = db_AE.aproveitamentoEscolarDao().obterAproveitamentoEscolar(id_estudante);
             }
         }).start();
         return valorAproveitamentoEscolar[0];

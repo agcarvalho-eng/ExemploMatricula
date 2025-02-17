@@ -7,7 +7,9 @@ import androidx.room.Room;
 
 import com.example.exemplomatricula.R;
 import com.example.exemplomatricula.models.DAO.DisciplinaDao;
+import com.example.exemplomatricula.models.DAO.EstudanteDisciplinaDao;
 import com.example.exemplomatricula.models.Disciplina;
+import com.example.exemplomatricula.models.EstudanteDisciplina;
 import com.example.exemplomatricula.models.MyDatabase;
 
 import java.io.BufferedReader;
@@ -21,6 +23,7 @@ public class ManipularDisciplinas {
 
     private MyDatabase dbDisciplina;
     private DisciplinaDao disciplinaDao;
+    private EstudanteDisciplinaDao estudanteDisciplinaDao;
 
     public ManipularDisciplinas(Context context) {
         // Inicializando o BD
@@ -28,8 +31,9 @@ public class ManipularDisciplinas {
                 .fallbackToDestructiveMigration()
                 .build();
 
-        // Inicializando a disciplinaDao
+        // Inicializando  as classes Daos necessárias
         disciplinaDao = dbDisciplina.disciplinasDao();
+        //estudanteDisciplinaDao = dbDisciplina.estudantedisciplinaDao();
 
     }
 
@@ -49,9 +53,8 @@ public class ManipularDisciplinas {
         String[] disciplinas = context.getResources().getStringArray(R.array.disciplinas);
 
         // Iterando sobre as strings do array
-        for (int i = 0; i < disciplinas.length; i++) {
-            // Dividindo cada string para obter a descrição e o seu peso
-            String disciplinaString = disciplinas[i];
+        for (String disciplinaString : disciplinas) {
+
             // Dividindo a string usando vírgula como separador
             String[] separando = disciplinaString.split(",");
 
@@ -75,7 +78,8 @@ public class ManipularDisciplinas {
 
     public List<Disciplina> listarTodasDisciplinas() {
         final List<Disciplina>[] disciplinas = new List[]{new ArrayList<>()};
-        Log.d("ManipularDisciplinas", "Iniciando leitura das disciplinas...");
+
+        // Alterado as threads para que se aguarde a conclusão da busca para depois fazer return
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -132,6 +136,46 @@ public class ManipularDisciplinas {
 
         // Retorna o valor verificado
         return existe[0];
+    }
+
+    // Método para salvar a escolha de disciplinas pelo estudante
+    public void salvarEscolhaDisciplinas(int idEstudante, List<Disciplina> disciplinasEscolhidas) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                // Inserir as novas escolhas de disciplinas
+                for (Disciplina disciplina : disciplinasEscolhidas) {
+                    EstudanteDisciplina estudanteDisciplina = new EstudanteDisciplina(idEstudante, disciplina.getId());
+                    estudanteDisciplinaDao.inserirEstudanteDisciplina(estudanteDisciplina);
+                }
+            }
+        }).start();
+    }
+
+    // Método para listar as disciplinas escolhidas por um estudante
+    public List<Disciplina> listarDisciplinasEscolhidas(int idEstudante) {
+        final List<Disciplina>[] disciplinasEscolhidas = new List[]{new ArrayList<>()};
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<EstudanteDisciplina> escolhas = estudanteDisciplinaDao.obterDisciplinasDeEstudante(idEstudante);
+                for (EstudanteDisciplina escolha : escolhas) {
+                    //Disciplina disciplina = disciplinaDao.obterDisciplinaId(escolha.id_disciplina);
+                    //disciplinasEscolhidas[0].add(disciplina);
+                }
+            }
+        });
+
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return disciplinasEscolhidas[0];
     }
 
 
