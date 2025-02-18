@@ -1,11 +1,12 @@
 package com.example.exemplomatricula.models;
 
 import androidx.room.Embedded;
+import androidx.room.Entity;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
 import java.util.List;
-
+@Entity(tableName = "estudante_com_disciplina")
 public class EstudanteComDisciplinas {
 
     @Embedded

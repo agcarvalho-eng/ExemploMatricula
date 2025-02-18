@@ -32,6 +32,11 @@ public class HomeFragment extends Fragment {
 
     }
 
+    // Buscando as informações do estudante logado
+    int idEstudante = SessaoUsuario.getIdEstudante();
+    String nomeEstudante = SessaoUsuario.getNomeEstudante();
+    //double indiceAproveitamento = db_AE.obterAproveitamentoEscolar(idEstudante);
+
     @Nullable
     @Override
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container,
@@ -55,11 +60,6 @@ public class HomeFragment extends Fragment {
 
         // Referenciando o textView para exibir nome e aproveitamento escolar
         textUsuario = view.findViewById(R.id.textViewUsuario);
-
-        // Buscando as informações do estudante logado
-        int idEstudante = SessaoUsuario.getIdEstudante();
-        String nomeEstudante = SessaoUsuario.getNomeEstudante();
-        //double indiceAproveitamento = db_AE.obterAproveitamentoEscolar(idEstudante);
 
         // Exibindo as informações no TextView
         // COLOCANDO UM ÍNDICE DE APROVEITAMENTO GENÉRICO
@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getActivity(), "Você clicou em Inserir Peso!", Toast.LENGTH_SHORT).show();
             // Direcionando para o fragmento de Tela Login
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frameLayout, new InserirPesoDisciplinaFragment())
+                    .replace(R.id.frameLayout, new InserirPesoDisciplinaFragment(idEstudante))
                     .commit();
             return true;
         }

@@ -33,7 +33,7 @@ public class ManipularDisciplinas {
 
         // Inicializando  as classes Daos necessárias
         disciplinaDao = dbDisciplina.disciplinasDao();
-        //estudanteDisciplinaDao = dbDisciplina.estudantedisciplinaDao();
+        estudanteDisciplinaDao = dbDisciplina.estudantedisciplinaDao();
 
     }
 
@@ -79,7 +79,7 @@ public class ManipularDisciplinas {
     public List<Disciplina> listarTodasDisciplinas() {
         final List<Disciplina>[] disciplinas = new List[]{new ArrayList<>()};
 
-        // Alterado as threads para que se aguarde a conclusão da busca para depois fazer return
+        // Alterando as threads para que se aguarde a conclusão da busca para depois fazer return
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -176,6 +176,18 @@ public class ManipularDisciplinas {
         }
 
         return disciplinasEscolhidas[0];
+    }
+
+    // Método para salvar as escolhas de disciplinas pelo estudante
+    public void salvarEscolhaDisciplinas(List<EstudanteDisciplina> estudanteDisciplinas) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (EstudanteDisciplina estudanteDisciplina : estudanteDisciplinas) {
+                    estudanteDisciplinaDao.inserirEstudanteDisciplina(estudanteDisciplina);
+                }
+            }
+        }).start();
     }
 
 
